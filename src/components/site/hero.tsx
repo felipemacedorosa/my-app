@@ -1,4 +1,6 @@
+import { m, useReducedMotion } from 'framer-motion'
 import { approach, pillars, readinessDimensions } from '@/content/site'
+import { DUR, EASE, RISE } from '@/lib/motion'
 
 /**
  * Hero.
@@ -14,15 +16,63 @@ import { approach, pillars, readinessDimensions } from '@/content/site'
  * engagement stages, the five readiness dimensions, the three outcomes)
  * arranged to give the hero the same silhouette. Do not replace it with a
  * fabricated app screenshot.
+ *
+ * MOTION: the hero animates on mount, not on scroll — it is above the fold,
+ * so a viewport trigger would either have already fired before first paint or
+ * never fire at all. The five rows arrive in sequence at a slower cadence than
+ * the rest of the page (HERO_STAGGER vs STAGGER); this is the one place where
+ * the sequence itself is the effect, and the panel is the payoff, so it lands
+ * last and travels furthest.
  */
+
+/** Slower than the page's STAGGER — the hero has five rows, not twelve cards. */
+const HERO_STAGGER = 0.09
+
+/** Held back so the entrance starts after the header has begun dropping in. */
+const HERO_DELAY = 0.12
+
 export function Hero() {
   const stage = approach[0]
+  const still = useReducedMotion()
+
+  // One object drives all five rows. `custom` carries the travel distance so
+  // the panel can move further than the text without a second variant.
+  const row = {
+    hidden: (rise: number = RISE) => ({ opacity: 0, y: rise }),
+    shown: { opacity: 1, y: 0 },
+  }
+
+  const motionProps = still
+    ? {}
+    : {
+        variants: {
+          hidden: {},
+          shown: {
+            transition: {
+              staggerChildren: HERO_STAGGER,
+              delayChildren: HERO_DELAY,
+            },
+          },
+        },
+        initial: 'hidden' as const,
+        animate: 'shown' as const,
+      }
+
+  const rowProps = still
+    ? {}
+    : {
+        variants: row,
+        transition: { duration: DUR.slow, ease: EASE },
+      }
 
   return (
     <section id="top" className="bg-canvas-warm relative overflow-hidden">
-      <div className="mx-auto w-full max-w-[1200px] px-6 pt-32 pb-0 md:pt-40">
+      <m.div
+        {...motionProps}
+        className="mx-auto w-full max-w-[1200px] px-6 pt-32 pb-0 md:pt-40"
+      >
         {/* Badge */}
-        <div className="flex justify-center">
+        <m.div {...rowProps} className="flex justify-center">
           <a
             href="#assessment"
             className="rounded-pill bg-ink inline-flex items-center gap-2 py-1.5 pr-3 pl-1.5 text-[13px] text-white transition-opacity hover:opacity-90"
@@ -35,31 +85,41 @@ export function Hero() {
               →
             </span>
           </a>
-        </div>
+        </m.div>
 
         {/* Headline. Single-colour, like the reference's H1 — the two-tone
             treatment is reserved for section headings further down. */}
-        <h1 className="display text-ink mx-auto mt-8 max-w-[15ch] text-center text-[clamp(2.75rem,7.5vw,4.4rem)]">
+        <m.h1
+          {...rowProps}
+          className="display text-ink mx-auto mt-8 max-w-[15ch] text-center text-[clamp(2.75rem,7.5vw,4.4rem)]"
+        >
           Data and AI, applied to the business problem
-        </h1>
+        </m.h1>
 
-        <p className="text-ink-56 mx-auto mt-6 max-w-[52ch] text-center text-[17px] leading-[1.55]">
+        <m.p
+          {...rowProps}
+          className="text-ink-56 mx-auto mt-6 max-w-[52ch] text-center text-[17px] leading-[1.55]"
+        >
           Snowfox is an AI and data consultancy. We work out where AI and data
           actually create value in your business, then build and run the thing
           that does it.
-        </p>
+        </m.p>
 
-        <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+        <m.div
+          {...rowProps}
+          className="mt-9 flex flex-wrap items-center justify-center gap-3"
+        >
           <a href="#contact" className="btn btn-primary">
             Book an intro call
           </a>
           <a href="#services" className="btn btn-outline">
             See what we do
           </a>
-        </div>
+        </m.div>
 
-        {/* Panel — bleeds below the fold. */}
-        <div className="mt-16 md:mt-20">
+        {/* Panel — bleeds below the fold. Travels twice the standard rise so
+            it reads as arriving rather than settling. */}
+        <m.div {...rowProps} custom={RISE * 2} className="mt-16 md:mt-20">
           <div className="border-ink-12 overflow-hidden rounded-t-[16px] border border-b-0 bg-white">
             {/* Chrome bar */}
             <div className="border-ink-12 flex items-center justify-between border-b px-4 py-2.5">
@@ -170,8 +230,8 @@ export function Hero() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </m.div>
+      </m.div>
     </section>
   )
 }

@@ -1,4 +1,10 @@
 import { Section, Eyebrow, TwoTone, Lede } from '@/components/site/section'
+import {
+  Reveal,
+  Stagger,
+  StaggerItem,
+  LiftCard,
+} from '@/components/site/reveal'
 import { approach, readinessDimensions } from '@/content/site'
 
 /**
@@ -43,7 +49,7 @@ export function Approach() {
   return (
     <Section id="approach" tone="dark">
       <div className="grid items-start gap-12 lg:grid-cols-[1fr_1fr] lg:gap-14">
-        <div className="lg:sticky lg:top-28">
+        <Reveal className="lg:sticky lg:top-28">
           <Eyebrow dark>How we work</Eyebrow>
           <TwoTone
             dark
@@ -65,13 +71,13 @@ export function Approach() {
               See the work
             </a>
           </div>
-        </div>
+        </Reveal>
 
         {/* The six stages. Numbered, unlike everything else on the page,
             because order carries real information here: you cannot prioritize
             use cases before there is a strategy, and scaling is meaningless
             before something is integrated. */}
-        <div className="card-dark overflow-hidden">
+        <Reveal className="card-dark overflow-hidden">
           <div className="border-on-dark-12 flex items-center justify-between border-b px-6 py-4">
             <Chip>Engagement</Chip>
             <span className="label text-on-dark-56">
@@ -79,9 +85,12 @@ export function Approach() {
             </span>
           </div>
 
-          <ol>
+          {/* Rows arrive one after another: this is the only list on the page
+              whose order is the content, so revealing it in order says so. */}
+          <Stagger as="ol">
             {approach.map((step, i) => (
-              <li
+              <StaggerItem
+                as="li"
                 key={step.title}
                 className="border-on-dark-12 grid grid-cols-[auto_1fr] gap-x-4 border-b px-6 py-5 last:border-b-0"
               >
@@ -96,15 +105,15 @@ export function Approach() {
                     {step.detail}
                   </p>
                 </div>
-              </li>
+              </StaggerItem>
             ))}
-          </ol>
-        </div>
+          </Stagger>
+        </Reveal>
       </div>
 
       {/* Two supporting cards. */}
-      <div className="mt-4 grid gap-4 lg:mt-16 lg:grid-cols-2">
-        <div className="card-dark p-7">
+      <Stagger className="mt-4 grid gap-4 lg:mt-16 lg:grid-cols-2">
+        <LiftCard className="card-dark p-7">
           <Chip>Assessment</Chip>
           <h3 className="display-3 text-on-dark-hi mt-5 text-[26px]">
             AI Readiness Assessment
@@ -135,9 +144,9 @@ export function Approach() {
           <a href="#contact" className="link-accent !text-accent-hi mt-6">
             Request the assessment <span aria-hidden="true">→</span>
           </a>
-        </div>
+        </LiftCard>
 
-        <div className="card-dark p-7">
+        <LiftCard className="card-dark p-7">
           <Chip>Approach</Chip>
           <h3 className="display-3 text-on-dark-hi mt-5 text-[26px]">
             AI does not only mean generative AI
@@ -157,8 +166,8 @@ export function Approach() {
               </li>
             ))}
           </ul>
-        </div>
-      </div>
+        </LiftCard>
+      </Stagger>
     </Section>
   )
 }

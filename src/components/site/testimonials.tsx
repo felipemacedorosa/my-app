@@ -1,4 +1,5 @@
 import { Section, Eyebrow, TwoTone } from '@/components/site/section'
+import { Reveal, Stagger, LiftCard } from '@/components/site/reveal'
 import { testimonials } from '@/content/site'
 
 /**
@@ -12,21 +13,18 @@ import { testimonials } from '@/content/site'
 export function Testimonials() {
   return (
     <Section id="clients" tone="alt">
-      <div className="flex flex-col items-center text-center">
+      <Reveal className="flex flex-col items-center text-center">
         <Eyebrow>In their words</Eyebrow>
         <TwoTone
           className="mt-5"
           lead="What clients say"
           accent="about the work."
         />
-      </div>
+      </Reveal>
 
-      <div className="mt-16 columns-1 gap-4 md:columns-2 lg:columns-3 [&>*]:mb-4 [&>*]:break-inside-avoid">
+      <Stagger className="mt-16 columns-1 gap-4 md:columns-2 lg:columns-3 [&>*]:mb-4 [&>*]:break-inside-avoid">
         {testimonials.map((testimonial) => (
-          <figure
-            key={testimonial.name}
-            className="card-light p-7"
-          >
+          <LiftCard as="figure" key={testimonial.name} className="card-light p-7">
             <blockquote className="text-ink text-[15px] leading-[1.65]">
               “{testimonial.quote}”
             </blockquote>
@@ -38,9 +36,9 @@ export function Testimonials() {
                 {testimonial.role}
               </span>
             </figcaption>
-          </figure>
+          </LiftCard>
         ))}
-      </div>
+      </Stagger>
     </Section>
   )
 }

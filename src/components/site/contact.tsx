@@ -1,4 +1,5 @@
 import { Section, Eyebrow, TwoTone } from '@/components/site/section'
+import { Reveal } from '@/components/site/reveal'
 
 /**
  * Closing call to action — the reference's final band: one very large centred
@@ -15,7 +16,7 @@ import { Section, Eyebrow, TwoTone } from '@/components/site/section'
 export function Contact() {
   return (
     <Section id="contact" tone="warm">
-      <div className="flex flex-col items-center text-center">
+      <Reveal className="flex flex-col items-center text-center">
         <Eyebrow>Next step</Eyebrow>
         <TwoTone
           className="mt-5"
@@ -36,9 +37,12 @@ export function Contact() {
             Talk to a specialist
           </a>
         </div>
-      </div>
+      </Reveal>
 
-      <div className="card-light mx-auto mt-16 flex max-w-3xl flex-col items-start justify-between gap-5 p-7 sm:flex-row sm:items-center">
+      <Reveal
+        delay={0.1}
+        className="card-light mx-auto mt-16 flex max-w-3xl flex-col items-start justify-between gap-5 p-7 sm:flex-row sm:items-center"
+      >
         <div>
           <h3 className="display-3 text-ink text-[21px]">
             Not ready to scope a project?
@@ -51,7 +55,7 @@ export function Contact() {
         <a href="#approach" className="btn btn-outline shrink-0">
           See what it covers
         </a>
-      </div>
+      </Reveal>
     </Section>
   )
 }

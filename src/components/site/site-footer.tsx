@@ -1,3 +1,4 @@
+import { Reveal } from '@/components/site/reveal'
 import logo from '@/assets/brand/snowfox-logo-light-bg.png'
 
 /**
@@ -43,7 +44,7 @@ export function SiteFooter() {
   return (
     <footer className="bg-canvas-alt border-ink-12 border-t">
       <div className="mx-auto w-full max-w-[1200px] px-6 py-16">
-        <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(3,1fr)]">
+        <Reveal className="grid gap-12 md:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div>
             <img
               src={logo}
@@ -76,7 +77,7 @@ export function SiteFooter() {
               </ul>
             </nav>
           ))}
-        </div>
+        </Reveal>
 
         <div className="border-ink-12 mt-14 flex flex-wrap items-center justify-between gap-4 border-t pt-6">
           <p className="text-ink-32 text-[13px]">

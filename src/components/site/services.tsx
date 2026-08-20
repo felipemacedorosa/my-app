@@ -1,4 +1,5 @@
 import { Section, Eyebrow, TwoTone, Lede } from '@/components/site/section'
+import { Reveal, Stagger, LiftCard } from '@/components/site/reveal'
 import { pillars } from '@/content/site'
 
 /**
@@ -24,7 +25,7 @@ const interleaved = Array.from({ length: services.length }, (_, i) =>
 export function Services() {
   return (
     <Section id="services" tone="alt">
-      <div className="max-w-3xl">
+      <Reveal className="max-w-3xl">
         <Eyebrow>Services</Eyebrow>
         <TwoTone
           className="mt-5"
@@ -35,14 +36,11 @@ export function Services() {
           AI work is only as good as the data underneath it. Snowfox is built to
           do both — neither of these is the sidebar to the other.
         </Lede>
-      </div>
+      </Reveal>
 
-      <div className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <Stagger className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {interleaved.map((service) => (
-          <article
-            key={service.name}
-            className="card-light flex flex-col p-7"
-          >
+          <LiftCard key={service.name} className="card-light flex flex-col p-7">
             <div className="flex items-center gap-2">
               <span className="bg-accent size-1.5 shrink-0 rounded-full" />
               <span className="label text-ink-32">{service.pillar}</span>
@@ -60,9 +58,9 @@ export function Services() {
                 <li key={point}>{point}</li>
               ))}
             </ul>
-          </article>
+          </LiftCard>
         ))}
-      </div>
+      </Stagger>
     </Section>
   )
 }

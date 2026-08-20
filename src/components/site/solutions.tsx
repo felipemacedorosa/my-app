@@ -1,4 +1,5 @@
 import { Section, Eyebrow, TwoTone, Lede } from '@/components/site/section'
+import { Reveal, Stagger, LiftCard } from '@/components/site/reveal'
 import { solutions } from '@/content/site'
 
 /**
@@ -12,7 +13,7 @@ import { solutions } from '@/content/site'
 export function Solutions() {
   return (
     <Section id="solutions" tone="canvas">
-      <div className="max-w-3xl">
+      <Reveal className="max-w-3xl">
         <Eyebrow>Solutions</Eyebrow>
         <TwoTone
           className="mt-5"
@@ -23,13 +24,16 @@ export function Solutions() {
           Four applied disciplines and two products, each built for a problem a
           business already has.
         </Lede>
-      </div>
+      </Reveal>
 
-      <div className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <Stagger className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {solutions.map((solution) => {
           const isProduct = Boolean(solution.tag)
           return (
-            <article key={solution.name} className="card-light flex flex-col p-7">
+            <LiftCard
+              key={solution.name}
+              className="card-light flex flex-col p-7"
+            >
               <span
                 className={
                   isProduct
@@ -54,10 +58,10 @@ export function Solutions() {
               <p className="text-ink-56 mt-3 text-[14.5px] leading-[1.6]">
                 {solution.summary}
               </p>
-            </article>
+            </LiftCard>
           )
         })}
-      </div>
+      </Stagger>
     </Section>
   )
 }

@@ -1,4 +1,5 @@
 import { Section, Eyebrow, TwoTone, Lede } from '@/components/site/section'
+import { Reveal } from '@/components/site/reveal'
 import { team } from '@/content/site'
 
 /**
@@ -13,7 +14,7 @@ export function About() {
   return (
     <Section id="about" tone="canvas">
       <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
-        <div>
+        <Reveal>
           <Eyebrow>About Snowfox</Eyebrow>
           <TwoTone
             className="mt-5"
@@ -34,9 +35,11 @@ export function About() {
               </span>
             </p>
           </blockquote>
-        </div>
+        </Reveal>
 
-        <div className="lg:pt-3">
+        {/* Held back a beat so the two columns read left-then-right rather
+            than arriving as one block. */}
+        <Reveal className="lg:pt-3" delay={0.12}>
           <div className="card-light overflow-hidden">
             <div className="border-ink-12 flex items-center justify-between border-b px-6 py-4">
               <span className="label text-ink-32">Leadership</span>
@@ -70,7 +73,7 @@ export function About() {
             Operating from Canada and Brazil, now expanding into the United
             States.
           </p>
-        </div>
+        </Reveal>
       </div>
     </Section>
   )

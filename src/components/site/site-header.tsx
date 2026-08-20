@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
+import { m, useReducedMotion } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { DUR, EASE } from '@/lib/motion'
+import { ScrollProgress } from '@/components/site/scroll-progress'
 import logo from '@/assets/brand/snowfox-logo-light-bg.png'
 
 const nav = [
@@ -18,9 +21,15 @@ const nav = [
  * right where the outline button is the softer ask. It is transparent over the
  * hero and picks up a blur + hairline only once the page has scrolled, so the
  * hero reads as full-bleed.
+ *
+ * The scroll listener stays hand-rolled rather than becoming a framer-motion
+ * `useScroll` subscription: it is a single boolean threshold, and driving a
+ * class change from a motion value would re-render on every frame to produce
+ * the same two states.
  */
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false)
+  const still = useReducedMotion()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
@@ -30,7 +39,12 @@ export function SiteHeader() {
   }, [])
 
   return (
-    <header
+    <m.header
+      // Drops in on load. `y` only — fading the header in would leave the
+      // hero's top edge visibly unanchored for the first half-second.
+      initial={still ? false : { y: -64 }}
+      animate={{ y: 0 }}
+      transition={{ duration: DUR.slow, ease: EASE }}
       className={cn(
         'fixed inset-x-0 top-0 z-50 transition-colors duration-200',
         scrolled
@@ -73,6 +87,8 @@ export function SiteHeader() {
           </a>
         </div>
       </div>
-    </header>
+
+      <ScrollProgress />
+    </m.header>
   )
 }

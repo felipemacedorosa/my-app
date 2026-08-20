@@ -87,10 +87,11 @@
 }
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-
+  /* No `scroll-behavior: smooth` here. Lenis (src/lib/use-smooth-scroll.ts)
+     owns scrolling and drives window.scrollTo itself; leaving the CSS
+     property on makes the browser re-smooth an already-smoothed target,
+     which reads as a stutter. The reduced-motion block below is what
+     restores native instant scrolling when Lenis stands down. */
   body {
     background-color: var(--canvas);
     color: var(--ink);
@@ -263,6 +264,8 @@
   html {
     scroll-behavior: auto;
   }
+  /* Belt and braces: the reveal components already render their final state
+     when reduced motion is set, so this only catches CSS transitions. */
   *,
   *::before,
   *::after {

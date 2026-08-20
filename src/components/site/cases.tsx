@@ -1,4 +1,5 @@
 import { Section, Eyebrow, TwoTone, Lede } from '@/components/site/section'
+import { Reveal, Stagger, LiftCard } from '@/components/site/reveal'
 import { cases } from '@/content/site'
 
 /**
@@ -11,20 +12,20 @@ import { cases } from '@/content/site'
 export function Cases() {
   return (
     <Section id="cases" tone="canvas">
-      <div className="max-w-3xl">
+      <Reveal className="max-w-3xl">
         <Eyebrow>Success cases</Eyebrow>
         <TwoTone className="mt-5" lead="Work already" accent="delivered." />
         <Lede className="mt-6 max-w-[58ch]">
           Named products and applied disciplines, in the sectors where Snowfox
           has shipped.
         </Lede>
-      </div>
+      </Reveal>
 
       {/* Masonry rather than a grid: seven cards into three columns would leave
           two dead slots on the last row. */}
-      <div className="mt-16 columns-1 gap-4 md:columns-2 lg:columns-3 [&>*]:mb-4 [&>*]:break-inside-avoid">
+      <Stagger className="mt-16 columns-1 gap-4 md:columns-2 lg:columns-3 [&>*]:mb-4 [&>*]:break-inside-avoid">
         {cases.map((item) => (
-          <article key={item.title} className="card-light p-7">
+          <LiftCard key={item.title} className="card-light p-7">
             <span className="rounded-pill border-ink-12 text-ink-56 label w-fit border px-2.5 py-1">
               {item.tag}
             </span>
@@ -34,9 +35,9 @@ export function Cases() {
             <p className="text-ink-56 mt-3 text-[14.5px] leading-[1.6]">
               {item.detail}
             </p>
-          </article>
+          </LiftCard>
         ))}
-      </div>
+      </Stagger>
     </Section>
   )
 }

@@ -1,4 +1,5 @@
 import { Section, Eyebrow, TwoTone } from '@/components/site/section'
+import { Reveal, Stagger, LiftCard } from '@/components/site/reveal'
 import { outcomes } from '@/content/site'
 
 /**
@@ -10,11 +11,17 @@ import { outcomes } from '@/content/site'
  * clearest statement of what is actually being sold.
  *
  * Centred heading, two-tone, as the reference does for every section head.
+ *
+ * The three cards are deliberately UNNUMBERED. They are parallel claims, not
+ * a sequence — results, efficiency and scalability do not happen in an order
+ * — so an "01 / 02 / 03" rail would assert a progression that isn't there and
+ * read as filler. Numbering on this page is reserved for the engagement
+ * stages, where the order is the actual content.
  */
 export function Outcomes() {
   return (
     <Section id="outcomes" tone="canvas">
-      <div className="flex flex-col items-center text-center">
+      <Reveal className="flex flex-col items-center text-center">
         <Eyebrow>What the work is for</Eyebrow>
         <TwoTone
           className="mt-5"
@@ -25,23 +32,18 @@ export function Outcomes() {
           Every engagement is tied to a number the business already tracks. If
           AI is not the right way to move it, we say so.
         </p>
-      </div>
+      </Reveal>
 
-      <div className="mt-16 grid gap-4 md:grid-cols-3">
-        {outcomes.map((outcome, i) => (
-          <div key={outcome.title} className="card-light flex flex-col p-7">
-            <span className="label text-ink-32">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <h3 className="display-3 text-ink mt-5 text-[26px]">
-              {outcome.title}
-            </h3>
+      <Stagger className="mt-16 grid gap-4 md:grid-cols-3">
+        {outcomes.map((outcome) => (
+          <LiftCard key={outcome.title} className="card-light flex flex-col p-7">
+            <h3 className="display-3 text-ink text-[26px]">{outcome.title}</h3>
             <p className="text-ink-56 mt-3 text-[15px] leading-[1.6]">
               {outcome.detail}
             </p>
-          </div>
+          </LiftCard>
         ))}
-      </div>
+      </Stagger>
     </Section>
   )
 }
