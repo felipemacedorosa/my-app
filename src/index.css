@@ -1,111 +1,273 @@
+@import 'tailwindcss';
+
+/*
+  Snowfox AI — visual system.
+
+  Structure, rhythm and component shapes follow the reference direction Felipe
+  set (devin.ai): a light warm-grey canvas, near-black ink, exactly one
+  electric accent used sparingly, very large tightly-tracked display type at
+  weight 500, 16px-radius cards, 2px-radius buttons, and one full-bleed dark
+  band roughly two-thirds down the page.
+
+  Where the reference and the Snowfox brand disagree, brand wins on colour:
+  the single accent is the SOP's #4A00E0 (gradient roxo end), which occupies
+  the same role as the reference's electric blue.
+
+  DEVIATION FROM VisualID.pdf: the SOP specifies Montserrat + Poppins. Those
+  are geometric humanists and cannot produce the reference's neo-grotesque
+  look, so display and body are set in Inter Tight. To revert to the SOP,
+  change --font-display / --font-sans below and swap the <link> in index.html.
+*/
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  color-scheme: light;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* Canvas — three light greys, darkest reserved for the band that needs
+     separating from its neighbours without a rule. */
+  --canvas: #efefef;
+  --canvas-warm: #f7f6f5;
+  --canvas-alt: #e7e7e7;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Ink. -56 is the reference's body-copy alpha and is used for every
+     supporting paragraph on light. */
+  --ink: #191919;
+  --ink-56: rgba(25, 25, 25, 0.56);
+  --ink-32: rgba(25, 25, 25, 0.32);
+  --ink-12: rgba(25, 25, 25, 0.12);
+  --ink-faint: #a7a6a6;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
+  /* Dark band. */
+  --dark: #141414;
+  --dark-card: #1f1f1f;
+  --dark-elev: #252525;
+  --on-dark: #e7e7e7;
+  --on-dark-hi: #fcfcfc;
+  --on-dark-56: rgba(231, 231, 231, 0.56);
+  --on-dark-12: rgba(231, 231, 231, 0.12);
+
+  /* The one accent. Brand: VisualID.pdf gradient roxo. */
+  --accent: #4a00e0;
+  --accent-hi: #8e2de2;
+
+  /* Cards are soft (16px), controls are hard (2px). That contrast is a
+     signature of the reference and is applied consistently. */
+  --r-card: 16px;
+  --r-btn: 2px;
+  --r-pill: 200px;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-canvas-warm: var(--canvas-warm);
+  --color-canvas-alt: var(--canvas-alt);
+
+  --color-ink: var(--ink);
+  --color-ink-56: var(--ink-56);
+  --color-ink-32: var(--ink-32);
+  --color-ink-12: var(--ink-12);
+  --color-ink-faint: var(--ink-faint);
+
+  --color-dark: var(--dark);
+  --color-dark-card: var(--dark-card);
+  --color-dark-elev: var(--dark-elev);
+  --color-on-dark: var(--on-dark);
+  --color-on-dark-hi: var(--on-dark-hi);
+  --color-on-dark-56: var(--on-dark-56);
+  --color-on-dark-12: var(--on-dark-12);
+
+  --color-accent: var(--accent);
+  --color-accent-hi: var(--accent-hi);
+
+  --radius-card: var(--r-card);
+  --radius-btn: var(--r-btn);
+  --radius-pill: var(--r-pill);
+
+  --font-sans: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+@layer components {
+  /*
+    Display type. The reference sets every heading at weight 500 with heavy
+    negative tracking (-0.04em) and near-1.0 leading; that combination is what
+    makes the type read as a grotesque rather than a UI font, so it is encoded
+    once here instead of being re-specified per section.
+  */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+    text-wrap: balance;
   }
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  /* Section heading — 64px at the reference's desktop width. */
+  .display-2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  /* Card titles: same family, lighter tracking, 1.27 leading. */
+  .display-3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.27;
+  }
+
+  /* Small mono label above a section or on a card. */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /*
+    The two controls. Hard 2px corners, weight 400, and tight padding —
+    deliberately unfashionable next to the 16px cards, which is the point.
+  */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: var(--r-btn);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1;
+    padding: 0.7rem 1.1rem;
+    white-space: nowrap;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease,
+      opacity 0.15s ease;
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: #fff;
+    border: 1px solid var(--ink);
+  }
+  .btn-primary:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+  }
+  .btn-outline:hover {
+    background: var(--ink);
+    color: #fff;
+  }
+
+  /* Same two controls, inverted for the dark band. */
+  .btn-primary-dark {
+    background: var(--on-dark-hi);
+    color: var(--dark);
+    border: 1px solid var(--on-dark-hi);
+  }
+  .btn-primary-dark:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .btn-outline-dark {
+    background: transparent;
+    color: var(--on-dark);
+    border: 1px solid var(--on-dark-56);
+  }
+  .btn-outline-dark:hover {
+    border-color: var(--on-dark-hi);
+    color: var(--on-dark-hi);
+  }
+
+  /* Card surface on light. Cards sit slightly brighter than the canvas with a
+     hairline, never a shadow. */
+  .card-light {
+    background: var(--canvas-warm);
+    border: 1px solid var(--ink-12);
+    border-radius: var(--r-card);
+  }
+
+  .card-dark {
+    background: var(--dark-card);
+    border: 1px solid var(--on-dark-12);
+    border-radius: var(--r-card);
+  }
+
+  /* The dash-bulleted list used inside every card in the reference. */
+  .dash-list > li {
+    position: relative;
+    padding-left: 1.05rem;
+  }
+  .dash-list > li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.72em;
+    width: 8px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.45;
+  }
+
+  /* Inline "Learn more →" link, accent-coloured. */
+  .link-accent {
+    color: var(--accent);
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: gap 0.15s ease;
+  }
+  .link-accent:hover {
+    gap: 0.55rem;
   }
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
 }
